@@ -107,6 +107,8 @@ type TLSConfig struct {
 	PrivateKeyFile string `yaml:"private-key-file,omitempty"`
 
 	RenegotiationSupport string `yaml:"renegotiation,omitempty"`
+
+	ServerNameIndication string `yaml:"server-name-indication,omitempty"`
 }
 
 // ValidateAndSetDefaults validates the client configuration and sets the default values if necessary
@@ -339,5 +341,6 @@ func configureTLS(tlsConfig *tls.Config, c TLSConfig) *tls.Config {
 	if val, ok := renegotiationSupport[c.RenegotiationSupport]; ok {
 		tlsConfig.Renegotiation = val
 	}
+	tlsConfig.ServerName = c.ServerNameIndication
 	return tlsConfig
 }
