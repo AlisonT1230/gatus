@@ -1,7 +1,7 @@
 endpoints:
   - name: example
     url: https://nginx
-    interval: 30s
+    interval: 2s
     conditions:
       - "[STATUS] == 200"
     client:
@@ -11,3 +11,22 @@ endpoints:
         certificate-file: /certs/client.crt
         private-key-file: /certs/client.key
         renegotiation: once
+        # server-name-indication: nginx
+
+# Attempted cases
+# Note: example certs contain SANs "localhost" and "nginx"
+
+# - insecure: false
+# url: https://nginx, omitted SNI, tcpdump shows SNI is set to nginx automatically in client hello
+# url: https://<containerIP>, omitted SNI, fail, SSL error citing that IP does not have SAN match
+# url: https://<containerIP>, set SNI to nginx, success, tcpdump shows SNI is set to nginx in client hello
+# url: https://<containerIP>, set SNI to localhost, success, tcpdump shows SNI is set to localhost in client hello
+# url: https://nginx, SNI key present but no value in yaml, success, tcpdump shows SNI is set to nginx automatically in client hello
+
+# - insecure: true
+# url: https://nginx, omitted SNI, success, tcpdump shows SNI is set to nginx automatically in client hello
+# url: https://<containerIP>, omitted SNI, success, tcpdump shows no SNI is set in client hello
+# url: https://<containerIP>, set SNI to nginx, success, tcpdump shows SNI is set to nginx in client hello
+# url: https://<containerIP>, set SNI to localhost, success, tcpdump shows SNI is set to localhost in client hello
+
+# omitting insecure field altogether defaults to true

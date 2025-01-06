@@ -11,7 +11,9 @@ services:
       - mtls
 
   gatus:
-    image: twinproduction/gatus:latest
+    image: twinproduction/gatus:test
+    build:
+      dockerfile: gatus.dockerfile
     restart: always
     ports:
       - "8080:8080"

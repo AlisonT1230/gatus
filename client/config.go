@@ -341,6 +341,12 @@ func configureTLS(tlsConfig *tls.Config, c TLSConfig) *tls.Config {
 	if val, ok := renegotiationSupport[c.RenegotiationSupport]; ok {
 		tlsConfig.Renegotiation = val
 	}
-	tlsConfig.ServerName = c.ServerNameIndication
+	if len(c.ServerNameIndication) > 0 {
+		logr.Infof("[client.configureTLS] Setting SNI: %s", c.ServerNameIndication)
+		tlsConfig.ServerName = c.ServerNameIndication
+	} else {
+		logr.Infof("[client.configureTLS] Not setting SNI")
+	}
+	logr.Infof("[client.configureTLS] SNI is set to: %s", tlsConfig.ServerName)
 	return tlsConfig
 }
