@@ -202,6 +202,24 @@ func TestCanPerformTLS(t *testing.T) {
 			wantErr:       false,
 		},
 		{
+			name: "bad cert with insecure true",
+			args: args{
+				address:  "expired.badssl.com:443",
+				insecure: true,
+			},
+			wantConnected: true,
+			wantErr:       false,
+		},
+		{
+			name: "bad cert with insecure false",
+			args: args{
+				address:  "expired.badssl.com:443",
+				insecure: false,
+			},
+			wantConnected: false,
+			wantErr:       true,
+		},
+		{
 			name: "valid tls with different sni",
 			args: args{
 				insecure: false,
