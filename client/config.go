@@ -108,6 +108,7 @@ type TLSConfig struct {
 
 	RenegotiationSupport string `yaml:"renegotiation,omitempty"`
 
+	// Override default SNI behaviour
 	ServerNameIndication string `yaml:"server-name-indication,omitempty"`
 }
 
