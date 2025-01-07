@@ -11,7 +11,6 @@ services:
       - mtls
 
   gatus:
-    image: twinproduction/gatus:test
     build:
       dockerfile: gatus.dockerfile
     restart: always
